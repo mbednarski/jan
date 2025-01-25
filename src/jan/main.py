@@ -20,7 +20,7 @@ def run():
     inputs = {
         'meals': 'BigMac',
         'topic': "IMMEDIATLY STOP AND RAISE AN ERROR",
-        'currentTime': str(datetime.datetime.now())
+        'currentDateTime': str(datetime.datetime.now())
     }
     Jan().crew().kickoff(inputs=inputs)
 

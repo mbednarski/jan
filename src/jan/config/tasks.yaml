@@ -1,18 +1,40 @@
 analyze_food_task:
   description: >
-    Analyze meals that were provided and score them. Prefer plant-based diet with high nutritients.
-    Highly processed food is very bad.
-    Meat and animal-based products are acceptable but only a few times per week
+    Analyze meals from today (current timestamp is {currentDateTime}) assuming that the diet should consider following aspects:
+    1. Pro or anti-inflammatory
+    2. High in fiber
+    3. High in water content
+    4. Low glycemic index
+    5. Low in fat (but not extremely)
+    6. Low in sugar
+    7. Non-addictive
+    8. Low caloric density
+    9. Low in meat
+    10. Low in refined grain products
+    11. Low in sodium
+    12. Low insulin index
+    13. Microbiome-enriching
+    14. Rich in fruits and vegetables
+    15. Rich in legumes
+    16. Filling/Satiating
+
+    You can also include any other comment that you consider important for healthy weight loss.
+
+    In order to get meal history for today ask a specialized agent.
+
+    Rembmber that the main goal of user is to lose weight and keep metabolic health.
   expected_output: >
-    Short summary of quality of eaten food with score in scale 0-10
-    Formatted as json with two fields: summary and score
+    Evaluation of todays meals according to given criteria
   agent: meal_analyst
 
 gather_food_journal:
   description: >
-    Ask user for all meals eaten today. Consider that current time is {currentTime} when asking for specific meals.
+    Ask user for all meals eaten today. Consider that current time is {currentDateTime} when asking for specific meals.
     All units should be in metric system and 24h clock.
     User can provide means in mixed polish/english. Ensure you translate all of them to english.
+    Your read a file that contains information about today's meals and use this information with current time
+    in order to ask meaninglful questions.
+    Before asking for meals verify what meals are already stored in the meal tracker.
     Ask user to confirm if collected information is correct.
   expected_output: >
     List of eaten meals with time estimation. For example:
@@ -24,9 +46,9 @@ gather_food_journal:
 
 save_meals:
   description: >
-    Save information about meals into a file. There should be single txt file per each day (for example 2024-17-21.txt)
+    Save information about meals into a meal tracker. There should be single txt file per each day (for example 2024-17-21.txt)
     If a file already exists make sure to consolidate new information instead of replacing it
-    Today is {currentTime}
+    Today is {currentDateTime}
   expected_output: >
     Summary of performed operations
   agent:

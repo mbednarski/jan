@@ -38,13 +38,14 @@ class Jan():
 		return Agent(
 			config=self.agents_config['meal_interviewer'],
 			verbose=True,
-			# allow_delegation=True
+			allow_delegation=True,
 		)
 	@agent
 	def journal_io(self) -> Agent:
 		return Agent(
 			config=self.agents_config['journal_io'],
 			verbose=True,
+			tools=[FileReadTool()]
 		)
 	
 	@task
@@ -57,7 +58,7 @@ class Jan():
 	def gather_food_journal(self) -> Task:
 		return Task(
 			config=self.tasks_config['gather_food_journal'],		
-			tools=[HumanInput()]
+			tools=[HumanInput(), FileReadTool()]
 		)
 	@task
 	def save_meals(self) -> Task:
