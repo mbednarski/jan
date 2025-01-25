@@ -10,7 +10,24 @@ analyze_food_task:
 
 gather_food_journal:
   description: >
-    Ask user for all means eaten today. Make sure he or she inlcuded evertython eaten today so far.
+    Ask user for all meals eaten today. Consider that current time is {currentTime} when asking for specific meals.
+    All units should be in metric system and 24h clock.
+    User can provide means in mixed polish/english. Ensure you translate all of them to english.
+    Ask user to confirm if collected information is correct.
   expected_output: >
-    List of eaten meals with rough time estimation (morning, noon, evening)
+    List of eaten meals with time estimation. For example:
+    1. Breakfast 8:00 (meal1)
+    2. Lunch 13:00 (meal2)
+    3. and so on
   agent: meal_interviewer
+
+
+save_meals:
+  description: >
+    Save information about meals into a file. There should be single txt file per each day (for example 2024-17-21.txt)
+    If a file already exists make sure to consolidate new information instead of replacing it
+    Today is {currentTime}
+  expected_output: >
+    Summary of performed operations
+  agent:
+    journal_io

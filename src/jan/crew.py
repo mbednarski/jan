@@ -5,9 +5,8 @@ from crewai.project import CrewBase, agent, crew, task
 from crewai.tools import BaseTool
 from pydantic import BaseModel, Field
 
-import litellm
+from crewai_tools import FileWriterTool, FileReadTool
 
-litellm.set_verbose=True
 
 class HumanInputInput(BaseModel):
     """Input schema for HumanInput."""
@@ -39,7 +38,13 @@ class Jan():
 		return Agent(
 			config=self.agents_config['meal_interviewer'],
 			verbose=True,
-			allow_delegation=True
+			# allow_delegation=True
+		)
+	@agent
+	def journal_io(self) -> Agent:
+		return Agent(
+			config=self.agents_config['journal_io'],
+			verbose=True,
 		)
 	
 	@task
@@ -54,13 +59,19 @@ class Jan():
 			config=self.tasks_config['gather_food_journal'],		
 			tools=[HumanInput()]
 		)
+	@task
+	def save_meals(self) -> Task:
+		return Task(
+			config=self.tasks_config['save_meals'],		
+			tools=[FileWriterTool(), FileReadTool()]
+		)
 
 	@crew
 	def crew(self) -> Crew:
 		"""Creates the Jan crew"""
 		return Crew(
-			agents=[self.meal_interviewer(), self.meal_analyst()], 
-			tasks=[self.gather_food_journal(), self.analyze_food_task()], 
+			agents=[self.meal_interviewer(), self.meal_analyst(), self.journal_io()], 
+			tasks=[self.gather_food_journal(), self.save_meals(), self.analyze_food_task()], 
 			process=Process.sequential,
 			verbose=True,
 			# process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
