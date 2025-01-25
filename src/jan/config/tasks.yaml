@@ -1,0 +1,16 @@
+analyze_food_task:
+  description: >
+    Analyze meals that were provided and score them. Prefer plant-based diet with high nutritients.
+    Highly processed food is very bad.
+    Meat and animal-based products are acceptable but only a few times per week
+  expected_output: >
+    Short summary of quality of eaten food with score in scale 0-10
+    Formatted as json with two fields: summary and score
+  agent: meal_analyst
+
+gather_food_journal:
+  description: >
+    Ask user for all means eaten today. Make sure he or she inlcuded evertython eaten today so far.
+  expected_output: >
+    List of eaten meals with rough time estimation (morning, noon, evening)
+  agent: meal_interviewer

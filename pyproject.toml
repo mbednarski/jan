@@ -1,0 +1,24 @@
+[project]
+name = "jan"
+version = "0.1.0"
+description = "jan using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.12"
+dependencies = [
+    "agentops>=0.3.26",
+    "crewai[agentops,tools]>=0.95.0,<1.0.0",
+]
+
+[project.scripts]
+jan = "jan.main:run"
+run_crew = "jan.main:run"
+train = "jan.main:train"
+replay = "jan.main:replay"
+test = "jan.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"
